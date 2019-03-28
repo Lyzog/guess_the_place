@@ -40,13 +40,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng point) {
-                Log.d("!!!","Map clicked " + point.latitude + " " + point.longitude);
+
+                // Add a marker in Sydney and move the camera
+                LatLng sydney = new LatLng(-34, 151);
+                mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+                //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+                Log.d("!!!", "this is Sydney: " + sydney.latitude + ", " + sydney.longitude);
+
+
+
+                Log.d("!!!","Map clicked " + point.latitude + ", " + point.longitude);
                 googleMap.addMarker(new MarkerOptions().position(point));
+
+
+
+                int R = 6371; // km
+                double x = (point.longitude - sydney.longitude) * Math.cos((sydney.latitude + point.latitude) / 2);
+                double y = (point.latitude - sydney.latitude);
+                double distance = Math.sqrt(x * x + y * y) * R;
+                Log.d("!!!", "distance: " + distance);
             }
         });
-        // Add a marker in Sydney and move the camera
-        //LatLng sydney = new LatLng(-34, 151);
-        //mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
     }
 }
