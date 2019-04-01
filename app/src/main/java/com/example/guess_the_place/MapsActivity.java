@@ -53,13 +53,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 googleMap.addMarker(new MarkerOptions().position(point));
 
 
-
-                int R = 6371; // km
-                double x = (point.longitude - sydney.longitude) * Math.cos((sydney.latitude + point.latitude) / 2);
-                double y = (point.latitude - sydney.latitude);
-                double distance = Math.sqrt(x * x + y * y) * R;
+                double x = (sydney.longitude - point.longitude) * Math.cos((sydney.latitude + point.latitude) / 2);
+                double y = (sydney.latitude - point.latitude);
+                double distance = Math.sqrt(x * x + y * y)* 100000;
                 Log.d("!!!", "distance: " + distance);
+
+                if (distance >= 1000){
+                    Log.d("!!!", "distance change to km: " + distance / 1000);
+
+                }
             }
+
         });
 
     }
