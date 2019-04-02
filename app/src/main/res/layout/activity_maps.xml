@@ -14,10 +14,9 @@
         tools:context=".MapsActivity"/>
     <ImageView
         android:id="@+id/hint"
-        android:layout_height="100dp"
-        android:layout_width="100dp"
-        android:src="@drawable/eiffeltower"
-        />
-
+        android:layout_height="195dp"
+        android:layout_width="130dp"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/eiffeltower"/>
 </RelativeLayout>
 
