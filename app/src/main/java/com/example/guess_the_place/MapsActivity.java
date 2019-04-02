@@ -3,6 +3,8 @@ package com.example.guess_the_place;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -22,6 +24,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        //ImageView imageView = new ImageView();
     }
 
     /**
@@ -37,15 +41,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(final GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.getUiSettings().setMapToolbarEnabled(false);
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng point) {
 
                 // Add a marker in Sydney and move the camera
-                LatLng sydney = new LatLng(-34, 151);
-                mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-                //mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-                Log.d("!!!", "this is Sydney: " + sydney.latitude + ", " + sydney.longitude);
+                LatLng eiffelTower = new LatLng(48.858372, 2.294480);
+                mMap.addMarker(new MarkerOptions().position(eiffelTower).title("The Eiffel Tower"));
+                //mMap.moveCamera(CameraUpdateFactory.newLatLng(eiffelTower));
+                Log.d("!!!", "this is the Eiffel tower: " + eiffelTower.latitude + ", " + eiffelTower.longitude);
 
 
 
@@ -53,14 +58,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 googleMap.addMarker(new MarkerOptions().position(point));
 
 
-                double x = (sydney.longitude - point.longitude) * Math.cos((sydney.latitude + point.latitude) / 2);
-                double y = (sydney.latitude - point.latitude);
+                double x = (eiffelTower.longitude - point.longitude) * Math.cos((eiffelTower.latitude + point.latitude) / 2);
+                double y = (eiffelTower.latitude - point.latitude);
                 double distance = Math.sqrt(x * x + y * y)* 100000;
-                Log.d("!!!", "distance: " + distance);
 
                 if (distance >= 1000){
                     Log.d("!!!", "distance change to km: " + distance / 1000);
 
+                } else {
+                    Log.d("!!!", "distance: " + distance);
                 }
             }
 
