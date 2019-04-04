@@ -2,4 +2,7 @@
     <string name="app_name">guess_the_place</string>
     <string name="button">Button</string>
     <string name="title_activity_maps">Map</string>
+    <string name="guess_the_place">Guess The Place</string>
+    <string name="start">START</string>
+    <string name="Guess">Guess</string>
 </resources>
