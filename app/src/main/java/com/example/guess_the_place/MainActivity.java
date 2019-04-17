@@ -2,8 +2,6 @@ package com.example.guess_the_place;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -75,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
                 .into(imageView);
     }
     public void openMap(){
-
         Intent intent = new Intent(MainActivity.this,MapsActivity.class);
         intent.putExtra("Key",currentPlace);
         startActivity(intent);

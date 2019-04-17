@@ -5,8 +5,6 @@ import android.os.Parcelable;
 
 import com.google.android.gms.maps.model.LatLng;
 
-import java.io.Serializable;
-
 class Place implements Parcelable {
     String name;
     String image;
@@ -66,14 +64,9 @@ class Place implements Parcelable {
         this.position = position;
     }
 
-    Place() {}
-
     Place(String name1, String image1, LatLng position1){
         name = name1;
         image = image1;
         position = position1;
     }
-
-
-
 }

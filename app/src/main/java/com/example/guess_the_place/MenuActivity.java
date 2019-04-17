@@ -25,6 +25,5 @@ public class MenuActivity extends AppCompatActivity {
     public void openMain(){
         Intent intent = new Intent(this,MainActivity.class);
         startActivity(intent);
-
     }
 }
