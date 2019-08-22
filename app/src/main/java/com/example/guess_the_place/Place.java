@@ -4,23 +4,33 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.firestore.GeoPoint;
 
 class Place implements Parcelable {
     String name;
     String image;
-    LatLng position;
+    public LatLng position;
+
+
+    public Place(){}
+
+    public Place(String name1, String image1, LatLng position1){
+        name = name1;
+        image = image1;
+        setPosition(position1);
+    }
 
     protected Place(Parcel in) {
         name = in.readString();
         image = in.readString();
-        position = in.readParcelable(LatLng.class.getClassLoader());
-    }
+        setPosition((LatLng) in.readParcelable(GeoPoint.class.getClassLoader()));
+       }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
         dest.writeString(image);
-        dest.writeParcelable(position, flags);
+        dest.writeParcelable((Parcelable) getPosition(), flags);
     }
 
     @Override
@@ -60,13 +70,9 @@ class Place implements Parcelable {
         return position;
     }
 
+
+
     public void setPosition(LatLng position) {
         this.position = position;
-    }
-
-    Place(String name1, String image1, LatLng position1){
-        name = name1;
-        image = image1;
-        position = position1;
     }
 }

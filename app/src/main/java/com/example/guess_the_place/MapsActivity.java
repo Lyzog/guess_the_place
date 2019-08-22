@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.location.Address;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.text.DecimalFormat;
 
@@ -30,6 +32,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private Place currentPlace;
     private ImageView imageView;
+    private GeoPoint geoPoint;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +46,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Intent intent = getIntent();
         if (null != intent){
            currentPlace = (Place)intent.getParcelableExtra("Key");
+           //Place2 p = (Place2) intent.getParcelableExtra("geo");
+           // Log.d("!!!", "onCreate: " + p.geo.getLatitude());
         }
 
         imageView = findViewById(R.id.hint);
 
-        Glide.with(context)
+        Glide.with(this)
                 .load(currentPlace.image)
                 .listener(new RequestListener<Drawable>() {
                     @Override
@@ -80,15 +85,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng point) {
-                mMap.addMarker(new MarkerOptions().position(currentPlace.position).title("The Eiffel Tower"));
-                //mMap.moveCamera(CameraUpdateFactory.newLatLng(eiffelTower));
-                Log.d("!!!", "this is the Eiffel tower: " + currentPlace.position.latitude + ", " + currentPlace.position.longitude);
 
-                Log.d("!!!","Map clicked " + point.latitude + ", " + point.longitude);
+                // Add a marker in Sydney and move the camera
+
+                mMap.addMarker(new MarkerOptions().position(currentPlace.getPosition()).title("The Eiffel Tower"));
+                //mMap.moveCamera(CameraUpdateFactory.newLatLng(eiffelTower));
+                //Log.d("!!!", "this is the Eiffel tower: " + point.getLatitude() + ", " + point.getLongitude());
+
+                //Log.d("!!!","Map clicked " + point.getLatitude() + ", " + point.getLongitude());
                 googleMap.addMarker(new MarkerOptions().position(point));
 
-                double x = (currentPlace.position.longitude - point.longitude) * Math.cos((currentPlace.position.latitude + point.latitude) / 2);
-                double y = (currentPlace.position.latitude - point.latitude);
+              //  double lat = geoPoint.getLatitude();
+              //  double lng = geoPoint.getLongitude();
+              //  LatLng latLng = new LatLng(lat, lng);
+
+                double x = (currentPlace.getPosition().longitude - point.longitude) * Math.cos((currentPlace.getPosition().latitude + point.latitude) / 2);
+                double y = currentPlace.getPosition().latitude - point.latitude;
+
                 double distance = Math.round(Math.sqrt(x * x + y * y)* 100000);
                 double distance1 = (Math.sqrt(x * x + y * y)* 100000);
 
@@ -99,8 +112,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 String d1 = df1.format(distance1);
                 
                 if (distance <= 1000){
+
                     AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                    alert.setMessage("Distance: " + d0 + "m" + "\n" + "\n" + "your points: " /* + score*/);
+                    alert.setMessage("Distance: " + d0 + "m" + "\n" + "\n" + "your points: "  /*+ score*/);
                     alert.setCancelable(false);
                     alert.setPositiveButton("end", new DialogInterface.OnClickListener() {
                         @Override
@@ -113,8 +127,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     alert1.show();
 
                 } else {
+
                     AlertDialog.Builder alert = new AlertDialog.Builder(context);
-                    alert.setMessage("Distance: " + d1 + "km" + "\n" + "\n" + "your points: " /* + score*/);
+                    alert.setMessage("Distance: " + d1 + "km" + "\n" + "\n" + "your points: "  /*+ score*/);
                     alert.setCancelable(false);
                     alert.setPositiveButton("end", new DialogInterface.OnClickListener() {
                         @Override
@@ -126,7 +141,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     AlertDialog alert1 = alert.create();
                     alert1.show();
                 }
-            }
+          }
         });
     }
 }

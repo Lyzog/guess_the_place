@@ -57,5 +57,5 @@
         android:textAlignment="center"
         android:textSize="25sp"
         android:text="@string/guess_the_place" />
-    
+
 </RelativeLayout>
